@@ -1,13 +1,13 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home/Home';
-//import Header from './components/layout/Header/Header';
-//import Footer from './components/layout/Footer/Footer';
+import Header from './components/layout/Header/Header';
+import Footer from './components/layout/Footer/Footer';
 
 function HomePage() {
   return (
     <BrowserRouter>
       <div className="app-container">
-        {/* <Header /> */}
+        <Header />
         <main>
           <Routes>
             <Route path="/" element={
@@ -17,7 +17,7 @@ function HomePage() {
             } />
           </Routes>
         </main>
-        {/* <Footer /> */}
+        <Footer />
       </div>
     </BrowserRouter>
   );

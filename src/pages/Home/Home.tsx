@@ -2,7 +2,7 @@ import styles from './Home.module.scss';
 
 const Home = () => {
   return (
-    <p className={styles.test}>salut</p>
+    <div className={styles.test}>test</div>
   );
 };
 
