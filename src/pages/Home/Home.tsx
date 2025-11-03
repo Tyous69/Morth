@@ -2,7 +2,12 @@ import styles from './Home.module.scss';
 
 const Home = () => {
   return (
-    <div className={styles.test}>Whereas</div>
+    <div className={styles.homeContainer}>
+      <div className={styles.specialFontBackground}></div>
+      <div className={styles.mainContent}>
+        MORTH
+      </div>
+    </div>
   );
 };
 

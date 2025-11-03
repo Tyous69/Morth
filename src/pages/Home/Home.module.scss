@@ -1,4 +1,78 @@
-.test {
-  color: red;
-  font-size: 24px;
+@use "sass:math";
+@use "sass:list";
+
+.homeContainer {
+  position: relative;
+  width: 100%;
+  min-height: 70vh;
+  margin-top: 110px;
+  overflow: hidden;
+}
+
+.mainContent {
+  color: #026360;
+  font-size: 120px;
+  position: relative;
+  z-index: 1;
+  padding: 20px;
+  text-align: center;
+  margin-top: 40px;
+}
+
+@mixin dots($count) {
+  $colors: #004b48, #026360, #018682;
+  $text-shadow: ();
+  
+  @for $i from 0 through $count {
+    $random-color: list.nth($colors, math.random(3));
+    $text-shadow: $text-shadow,
+                 (-.5+(math.random()) * 3) + em
+                 (-.5+(math.random()) * 3) + em
+                 7px // Back to original blur
+                 $random-color;
+  }
+  text-shadow: $text-shadow;
+}
+
+.specialFontBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgb(0, 0, 0);
+  font: 5vmin/1.3 Serif;
+  overflow: hidden;
+  
+  &::before, &::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 3em;
+    height: 3em;
+    content: '.';
+    color: transparent; // Make dot invisible
+    animation: 44s -27s move infinite ease-in-out alternate;
+  }
+
+  &::before {
+    @include dots(40);
+    animation-duration: 35s;
+    animation-delay: -27s;
+  }
+
+  &::after {
+    @include dots(40);
+    animation-duration: 43s;
+    animation-delay: -32s;
+  }
+}
+
+@keyframes move {
+  from {
+    transform: rotate(0deg) scale(12) translateX(0); // Remove horizontal movement
+  }
+  to {
+    transform: rotate(360deg) scale(18) translateX(0); // Remove horizontal movement
+  }
 }

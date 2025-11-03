@@ -1,26 +1,22 @@
 .header {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: auto; // Let content determine height
-  min-height: 70px; // Ensure minimum height
+  height: auto;
+  min-height: 70px;
   background: transparent;
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 2px solid #666;
   color: white;
-  padding: 15px 0; // Adequate padding
-  
-  & + * {
-    margin-top: 80px; // Adjust based on actual height
-  }
+  padding: 15px 0;
 }
 
 .logo {
-  max-height: 80px; // Control the maximum height
+  max-height: 80px;
   width: auto;
   object-fit: contain;
 }
