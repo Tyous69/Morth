@@ -9,7 +9,7 @@
   overflow: hidden;
 }
 
-.mainContent {
+.title {
   color: #026360;
   font-size: 120px;
   position: relative;
@@ -17,6 +17,11 @@
   padding: 20px;
   text-align: center;
   margin-top: 40px;
+}
+
+.info {
+  margin-top: 70px;
+  font-size: 35px;
 }
 
 @mixin dots($count) {

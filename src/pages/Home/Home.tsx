@@ -4,8 +4,11 @@ const Home = () => {
   return (
     <div className={styles.homeContainer}>
       <div className={styles.specialFontBackground}></div>
-      <div className={styles.mainContent}>
-        MORTH
+      <div className={styles.title}>
+        Morth
+      <div className={styles.info}>
+        Number 1 (self-proclaimed) Morse Code Training Website
+      </div>
       </div>
     </div>
   );
