@@ -24,6 +24,14 @@
   font-size: 35px;
 }
 
+.mothContainer {
+  margin-top: 60px;
+}
+
+.moth {
+  width: 550px;
+}
+
 @mixin dots($count) {
   $colors: #004b48, #026360, #018682;
   $text-shadow: ();

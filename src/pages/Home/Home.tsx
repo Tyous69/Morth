@@ -9,6 +9,12 @@ const Home = () => {
       <div className={styles.info}>
         Number 1 (self-proclaimed) Morse Code Training Website
       </div>
+        <div className={styles.mothContainer}>
+          <img className={styles.moth}
+          src="/assets/Moth_White.png" 
+          alt="Morth"
+          />
+        </div>
       </div>
     </div>
   );
