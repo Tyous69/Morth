@@ -33,7 +33,7 @@
 }
 
 @mixin dots($count) {
-  $colors: #004b48, #026360, #018682;
+  $colors: #003a38, #004b48, #026360, #018682,#00a09b;
   $text-shadow: ();
   
   @for $i from 0 through $count {
