@@ -1,2 +1,49 @@
-# Morth
-website where you can train your morse code skill
+# Morth - Morse Code Learning Platform
+
+Morth (a blend of "Morse" and "Moth") is a web-based application built with TypeScript that helps you practice Morse code through training modules.
+
+## Quick Start
+
+### Prerequisites
+
+- Node.js (version 14 or higher)
+- npm or yarn
+
+### Installation
+
+1. **Install project dependencies**
+```
+npm install
+```
+
+2. **Start the development server**
+```
+npm run dev
+```
+
+## Features
+- Interactive Learning: Step-by-step Morse code lessons
+
+- Practice Mode: Test your skills with random characters and words
+
+- Real-time Feedback: Instant feedback on your Morse code input
+
+- Audio Support: Hear Morse code tones for better learning
+
+## Morse Code Implementation
+
+- Dot: (·)
+
+- Dash: (-)
+
+## Technologies Used
+
+- TypeScript - Type-safe JavaScript
+
+- Vite - Fast build tool and development server
+
+- SCSS - CSS extension that adds advanced features
+
+## License
+
+This project is licensed under the MIT License.
