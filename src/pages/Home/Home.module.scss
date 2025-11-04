@@ -9,27 +9,45 @@
   overflow: hidden;
 }
 
-.title {
-  color: #026360;
-  font-size: 120px;
+.welcome {
+  color: #ffffff;
+  font-size: 80px;
   position: relative;
   z-index: 1;
-  padding: 20px;
   text-align: center;
-  margin-top: 40px;
+  margin-top: 50px;
+}
+
+.title {
+  color: #026360;
+  font-size: 100px;
+  position: relative;
+  z-index: 1;
+  text-align: center;
 }
 
 .info {
+  color: #ffffff;
+  position: relative;
+  z-index: 1;
+  text-align: center;
   margin-top: 70px;
   font-size: 35px;
 }
 
-.mothContainer {
-  margin-top: 60px;
+.numerouno {
+  color: #018682;
 }
 
-.moth {
-  width: 550px;
+.buttons {
+  margin-top: 55px;
+  padding: 20px;
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 25px;
 }
 
 @mixin dots($count) {
@@ -41,7 +59,7 @@
     $text-shadow: $text-shadow,
                  (-.5+(math.random()) * 3) + em
                  (-.5+(math.random()) * 3) + em
-                 7px // Back to original blur
+                 7px
                  $random-color;
   }
   text-shadow: $text-shadow;
@@ -64,7 +82,7 @@
     width: 3em;
     height: 3em;
     content: '.';
-    color: transparent; // Make dot invisible
+    color: transparent;
     animation: 44s -27s move infinite ease-in-out alternate;
   }
 
@@ -83,9 +101,9 @@
 
 @keyframes move {
   from {
-    transform: rotate(0deg) scale(12) translateX(0); // Remove horizontal movement
+    transform: rotate(0deg) scale(12) translateX(0);
   }
   to {
-    transform: rotate(360deg) scale(18) translateX(0); // Remove horizontal movement
+    transform: rotate(360deg) scale(18) translateX(0);
   }
 }
