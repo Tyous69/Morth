@@ -4,7 +4,7 @@ import { Button } from '../../components/Button/Button';
 const Home = () => {
   return (
     <div className={styles.homeContainer}>
-      <div className={styles.specialFontBackground}></div>
+      <div className={styles.fontBackground}></div>
         <div className={styles.welcome}>
           Welcome To
         </div>

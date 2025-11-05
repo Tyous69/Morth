@@ -14,6 +14,8 @@ Morth (a blend of "Morse" and "Moth") is a web-based application built with Type
 1. **Install project dependencies**
 ```
 npm install
+npm install react react-dom
+npm install --save-dev typescript @types/react @types/react-dom
 ```
 
 2. **Start the development server**
@@ -22,19 +24,12 @@ npm run dev
 ```
 
 ## Features
-- Interactive Learning: Step-by-step Morse code lessons
 
 - Practice Mode: Test your skills with random characters and words
 
 - Real-time Feedback: Instant feedback on your Morse code input
 
 - Audio Support: Hear Morse code tones for better learning
-
-## Morse Code Implementation
-
-- Dot: (·)
-
-- Dash: (-)
 
 ## Technologies Used
 
