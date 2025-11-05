@@ -107,3 +107,23 @@
     transform: rotate(360deg) scale(18) translateX(0);
   }
 }
+
+@media (max-width: 768px) {
+  .homeContainer {
+    min-height: 60vh;
+  }
+  .welcome {
+    font-size: 50px;
+  }
+  .title {
+    font-size: 70px;
+  }
+  .info {
+    font-size: 25px;
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+  .buttons {
+    padding: 10px;
+  }
+}
