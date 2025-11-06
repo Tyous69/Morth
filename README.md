@@ -15,6 +15,8 @@ Morth (a blend of "Morse" and "Moth") is a web-based application built with Type
 ```
 npm install
 npm install react react-dom
+npm install react-router-hash-link
+npm i --save-dev @types/react-router-hash-link
 npm install --save-dev typescript @types/react @types/react-dom
 ```
 

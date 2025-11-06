@@ -1,5 +1,6 @@
 import styles from './Home.module.scss';
 import { Button } from '../../components/Button/Button';
+import { HashLink } from 'react-router-hash-link';
 
 const Home = () => {
   return (
@@ -16,20 +17,21 @@ const Home = () => {
         </div>
         <div className={styles.buttons}>
           <Button 
-          variant="primary" 
-          size="small" 
-          onClick={() => console.log('redirection explore')}
+            variant="primary" 
+            size="small" 
+            onClick={() => console.log('redirection explore')}
           >
-          Explore →
+            Explore →
           </Button>
 
-          <Button 
-          variant="secondary" 
-          size="small" 
-          onClick={() => console.log('redirection learn more')}
-          >
-          Learn More
-          </Button>
+          <HashLink to="#learn-more" smooth>
+            <Button 
+              variant="secondary" 
+              size="small"
+            >
+              Learn More
+            </Button>
+          </HashLink>
         </div>
       </div>
   );
