@@ -1,10 +1,9 @@
 import styles from './Header.module.scss';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
-  const handleLogoClick = () => {
-    console.log("Logo clicked - redirecting to homepage"); // change with redirection
-    // router
-  };
+
+  const navigate = useNavigate();
 
   return (
     <header className={styles.header}>
@@ -12,7 +11,7 @@ const Header = () => {
         className={styles.logo}
         src="/assets/MorthLogo.png" 
         alt="Morth"
-        onClick={handleLogoClick}
+        onClick={() => navigate('/')}
         style={{ cursor: 'pointer' }}
       />
     </header>

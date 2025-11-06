@@ -1,8 +1,11 @@
 import styles from './Home.module.scss';
 import { Button } from '../../components/Button/Button';
 import { HashLink } from 'react-router-hash-link';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
+  const navigate = useNavigate();
+
   return (
     <div className={styles.homeContainer}>
       <div className={styles.fontBackground}></div>
@@ -19,7 +22,7 @@ const Home = () => {
           <Button 
             variant="primary" 
             size="small" 
-            onClick={() => console.log('redirection explore')}
+            onClick={() => navigate('/explore')}
           >
             Explore →
           </Button>

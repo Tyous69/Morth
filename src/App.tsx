@@ -1,21 +1,29 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
 import Header from './components/layout/Header/Header';
+import Footer from './components/layout/Footer/Footer';
 import Home from './pages/Home/Home';
 import LearnMore from './pages/LearnMore/LearnMore';
-import Footer from './components/layout/Footer/Footer';
+import Explore from './pages/Explore/Explore';
 
-function HomePage() {
+function App() {
   return (
     <BrowserRouter>
       <div className="app-container">
         <Header />
         <main>
           <Routes>
+            {/* Home route */}
             <Route path="/" element={
               <>
                 <Home />
                 <LearnMore />
+              </>
+            } />
+
+            {/* Explore route */}
+            <Route path="/explore" element={
+              <>
+                <Explore />
               </>
             } />
           </Routes>
@@ -26,4 +34,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default App;
