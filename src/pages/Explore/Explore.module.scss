@@ -4,4 +4,197 @@
   min-height: 100vh;
   margin-top: 110px;
   overflow: hidden;
+  background: black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 20px;
 }
+
+.fontBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.03;
+  z-index: 0;
+}
+
+.exploreTitle {
+  padding-top: 45px;
+  font-size: 3rem;
+  color: #00a09b;
+  text-align: center;
+  margin-bottom: 35px;
+  position: relative;
+  z-index: 1;
+  
+  @media (max-width: 768px) {
+    font-size: 2rem;
+    margin-bottom: 40px;
+  }
+}
+
+.exploreText {
+  font-size: 1.5rem;
+  color: white;
+  text-align: center;
+  margin-bottom: 100px;
+  position: relative;
+  z-index: 1;
+
+  @media (max-width: 768px) {
+    font-size: 0.5rem;
+  }
+}
+
+.coloredText {
+  color: #00928d;
+}
+
+.cardsContainer {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  max-width: 1200px;
+  position: relative;
+  z-index: 1;
+  flex-wrap: wrap;
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+}
+
+.cardWrapper {
+  position: relative;
+  width: 300px;
+  min-height: 250px;
+  cursor: pointer;
+  transition: all 0.6s ease-in-out;
+  
+  &.active {
+    transform: translateY(-10px);
+  }
+}
+
+.neonCard {
+  position: relative;
+  width: 100%;
+  height: auto;
+  border: 3px solid #018682;
+  border-radius: 20px;
+  padding: 30px;
+  background: rgba(0, 0, 0, 0.8);
+  box-shadow: 
+    0 0 20px #018682,
+    0 0 40px #018682,
+    inset 0 0 10px rgba(1, 134, 130, 0.1);
+  animation: smoothGlow 4s ease-in-out infinite;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.cardHoverContent {
+  flex-shrink: 0;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.9);
+  border-top: 2px solid #018682;
+  opacity: 0;
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  overflow: hidden;
+  transition: all 0.6s ease-in-out;
+  
+  .cardWrapper.active & {
+    opacity: 1;
+    max-height: 500px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+}
+
+.cardMainContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  min-height: 150px;
+  flex-shrink: 0;
+}
+
+.hoverTitle {
+  font-size: 1.5rem;
+  color: #00a09b;
+  margin-bottom: 12px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.4s ease-in-out 0.2s;
+  
+  .cardWrapper.active & {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hoverDescription {
+  font-size: 1rem;
+  color: white;
+  line-height: 1.5;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.4s ease-in-out 0.3s;
+  
+  .cardWrapper.active & {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+
+@keyframes smoothGlow {
+  0%, 100% {
+    box-shadow: 
+      0 0 20px #018682,
+      0 0 35px #018682,
+      0 0 50px rgba(1, 134, 130, 0.5),
+      inset 0 0 10px rgba(1, 134, 130, 0.1);
+  }
+  50% {
+    box-shadow: 
+      0 0 25px #018682,
+      0 0 40px #018682,
+      0 0 55px rgba(1, 134, 130, 0.8),
+      inset 0 0 15px rgba(1, 134, 130, 0.2);
+  }
+}
+
+.cardTop {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: white;
+}
+
+.cardBottom {
+  font-size: 1.2rem;
+  color: white;
+  opacity: 0.9;
+}
+
+.speakerIcon {
+  width: 80px;
+  height: 80px;
+  filter: brightness(0) invert(1);
+}
+
