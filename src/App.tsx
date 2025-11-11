@@ -4,6 +4,7 @@ import Footer from './components/layout/Footer/Footer';
 import Home from './pages/Home/Home';
 import LearnMore from './pages/LearnMore/LearnMore';
 import Explore from './pages/Explore/Explore';
+import AlphabetTraining from './pages/AlphabetTraining/AlphabetTraining';
 
 function App() {
   return (
@@ -24,6 +25,13 @@ function App() {
             <Route path="/explore" element={
               <>
                 <Explore />
+              </>
+            } />
+
+            {/* Alphabet Training route */}
+            <Route path="/alphabet-training" element={
+              <>
+                <AlphabetTraining />
               </>
             } />
           </Routes>

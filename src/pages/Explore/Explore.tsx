@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './Explore.module.scss';
 
 const Explore = () => {
   const [activeCard, setActiveCard] = useState<number | null>(null);
+  const navigate = useNavigate();
 
   const trainingModes = [
     {
@@ -10,23 +12,30 @@ const Explore = () => {
       title: "Alphabet Training",
       description: "Practice individual letters - translate letters to Morse code or Morse code to letters.",
       topContent: "A B C",
-      bottomContent: "·− −··· −·−·"
+      bottomContent: "·− −··· −·−·",
+      path: "/alphabet-training"
     },
     {
       id: 2,
       title: "Word Training",
       description: "Translate entire words with difficulty levels (easy, medium, hard). Choose between text to Morse or Morse to text.",
       topContent: "Hello",
-      bottomContent: "···· · ·−·· ·−·· −−−"
+      bottomContent: "···· · ·−·· ·−·· −−−",
+      path: "/word-training"
     },
     {
       id: 3,
       title: "Sound Training",
       description: "Listen to Morse code audio and identify letters or words. Perfect for developing your listening skills.",
       topContent: <img src="/assets/SpeakerIcon.png" alt="Speaker" className={styles.speakerIcon} />,
-      bottomContent: ""
+      bottomContent: "",
+      path: "/sound-training"
     }
   ];
+
+  const handleCardClick = (path: string) => {
+    navigate(path);
+  };
 
   return (
     <div className={styles.exploreContainer}>
@@ -47,6 +56,8 @@ const Explore = () => {
             className={`${styles.cardWrapper} ${activeCard === mode.id ? styles.active : ''}`}
             onMouseEnter={() => setActiveCard(mode.id)}
             onMouseLeave={() => setActiveCard(null)}
+            onClick={() => handleCardClick(mode.path)}
+            style={{ cursor: 'pointer' }}
           >
             <div className={styles.neonCard}>
               <div className={styles.cardMainContent}>
