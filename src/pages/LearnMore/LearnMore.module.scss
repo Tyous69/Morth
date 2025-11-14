@@ -1,22 +1,20 @@
 .learnMoreContainer {
   position: relative;
   width: 100%;
-  min-height: 200vh;
+  min-height: min-content; /* Adjusts to content */
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 60px;
+  padding: 100px; /* Equal padding all around */
   background: rgb(0, 0, 0);
   overflow: hidden;
-
-  scroll-margin-top: -130px;
+  scroll-margin-top: -80px;
 
   @media (max-width: 768px) {
-    padding: 0 20px;
+    padding: 40px 20px;
     scroll-margin-top: -20px;
-    min-height: 230vh;
   }
-}
+} 
 
 .neonContainer {
   position: relative;

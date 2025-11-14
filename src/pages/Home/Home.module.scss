@@ -51,7 +51,7 @@
 }
 
 @mixin dots($count) {
-  $colors: #003a38, #004b48, #026360, #018682,#00a09b;
+  $colors: #008580, #006865, #00918c, #00b8b2,#00c3bd;
   $text-shadow: ();
   
   @for $i from 0 through $count {
@@ -96,6 +96,19 @@
     @include dots(40);
     animation-duration: 43s;
     animation-delay: -32s;
+  }
+  
+  &::first-line {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 3em;
+    height: 3em;
+    content: '.';
+    color: transparent;
+    @include dots(30);
+    animation: 50s -15s move infinite ease-in-out alternate;
+    opacity: 0.7;
   }
 }
 
