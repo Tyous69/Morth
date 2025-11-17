@@ -2,12 +2,31 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" href="/assets/MorthLogo.png" type="image/png">
+    <link rel="icon" href="/assets/MorthLogo_White.png" type="image/png" id="dark-scheme-icon">
+    <link rel="icon" href="/assets/MorthLogo.png" type="image/png" id="light-scheme-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Morth</title>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+      <script>
+        const matcher = window.matchMedia('(prefers-color-scheme: dark)');
+        const lightSchemeIcon = document.querySelector('link#light-scheme-icon');
+        const darkSchemeIcon = document.querySelector('link#dark-scheme-icon');
+
+        function onUpdate() {
+          if (matcher.matches) {
+            lightSchemeIcon.remove();
+            document.head.append(darkSchemeIcon);
+          } else {
+            darkSchemeIcon.remove();
+            document.head.append(lightSchemeIcon);
+          }
+        }
+
+        matcher.addListener(onUpdate);
+        onUpdate();
+      </script>
   </body>
 </html>
