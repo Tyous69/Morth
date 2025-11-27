@@ -10,6 +10,7 @@ const AlphabetTraining = () => {
   const [feedback, setFeedback] = useState<{ message: string; isCorrect: boolean } | null>(null);
   const [score, setScore] = useState({ correct: 0, incorrect: 0 });
   const [isWaitingForSubmit, setIsWaitingForSubmit] = useState(true);
+  const [activeButton, setActiveButton] = useState<'dot' | 'dash' | 'delete' | null>(null);
 
   const previousLetter = useRef<string>('');
   const previousMorse = useRef<string>('');
@@ -64,6 +65,7 @@ const AlphabetTraining = () => {
     setUserLetterInput('');
     setFeedback(null);
     setIsWaitingForSubmit(true);
+    setActiveButton(null);
   }, [trainingMode, getRandomLetter, getRandomMorse]);
 
   const checkAnswer = () => {
@@ -136,6 +138,30 @@ const AlphabetTraining = () => {
     generateNewExercise();
   };
 
+  const addDot = () => {
+    if (trainingMode === 'letterToMorse' && isWaitingForSubmit && !feedback && userInput.length < 4) {
+      setUserInput(prev => prev + '.');
+      setActiveButton('dot');
+      setTimeout(() => setActiveButton(null), 150);
+    }
+  };
+
+  const addDash = () => {
+    if (trainingMode === 'letterToMorse' && isWaitingForSubmit && !feedback && userInput.length < 4) {
+      setUserInput(prev => prev + '-');
+      setActiveButton('dash');
+      setTimeout(() => setActiveButton(null), 150);
+    }
+  };
+
+  const handleDelete = () => {
+    if (trainingMode === 'letterToMorse' && isWaitingForSubmit && !feedback && userInput) {
+      setUserInput(prev => prev.slice(0, -1));
+      setActiveButton('delete');
+      setTimeout(() => setActiveButton(null), 150);
+    }
+  };
+
   const handleKeyPress = useCallback((event: KeyboardEvent) => {
     if (feedback) {
       if (event.key === 'Enter') {
@@ -148,13 +174,17 @@ const AlphabetTraining = () => {
 
     if (trainingMode === 'letterToMorse') {
       if (event.key === 'j' || event.key === 'J') {
-        setUserInput(prev => prev + '.');
+        if (userInput.length < 4) {
+          addDot();
+        }
       } else if (event.key === 'k' || event.key === 'K') {
-        setUserInput(prev => prev + '-');
+        if (userInput.length < 4) {
+          addDash();
+        }
       } else if (event.key === 'Enter') {
         checkAnswer();
       } else if (event.key === 'Backspace') {
-        setUserInput(prev => prev.slice(0, -1));
+        handleDelete();
       }
     } else {
       if (event.key === 'Enter') {
@@ -162,10 +192,10 @@ const AlphabetTraining = () => {
       } else if (event.key === 'Backspace') {
         setUserLetterInput(prev => prev.slice(0, -1));
       } else if (/^[a-zA-Z]$/.test(event.key)) {
-        setUserLetterInput(prev => prev + event.key.toUpperCase());
+        setUserLetterInput(event.key.toUpperCase());
       }
     }
-  }, [isWaitingForSubmit, feedback, trainingMode, checkAnswer, handleNextLetter]);
+  }, [isWaitingForSubmit, feedback, trainingMode, checkAnswer, handleNextLetter, userInput]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress);
@@ -223,8 +253,28 @@ const AlphabetTraining = () => {
               <div className={styles.morseDisplay}>
                 {userInput || <span className={styles.placeholder}></span>}
               </div>
-              <div className={styles.inputHint}>
-                Use J for • (dot) and K for – (dash)
+              <div className={styles.inputButtonCont}>
+                <button
+                  className={`${styles.inputButton} ${activeButton === 'dot' ? styles.active : ''}`}
+                  onClick={addDot}
+                  disabled={userInput.length >= 4}
+                >
+                  •
+                </button>
+                <button
+                  className={`${styles.inputButton} ${activeButton === 'dash' ? styles.active : ''}`}
+                  onClick={addDash}
+                  disabled={userInput.length >= 4}
+                >
+                  –
+                </button>
+                <button
+                  className={`${styles.deleteButton} ${activeButton === 'delete' ? styles.active : ''}`}
+                  onClick={handleDelete}
+                  disabled={!userInput}
+                >
+                  ⌫
+                </button>
               </div>
             </div>
           </>
