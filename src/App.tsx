@@ -5,6 +5,7 @@ import Home from './pages/Home/Home';
 import LearnMore from './pages/LearnMore/LearnMore';
 import Explore from './pages/Explore/Explore';
 import AlphabetTraining from './pages/AlphabetTraining/AlphabetTraining';
+import WordTraining from './pages/WordTraining/WordTraining';
 
 function App() {
   return (
@@ -32,6 +33,13 @@ function App() {
             <Route path="/alphabet-training" element={
               <>
                 <AlphabetTraining />
+              </>
+            } />
+
+            {/* word Training route */}
+            <Route path="/word-training" element={
+              <>
+                <WordTraining />
               </>
             } />
           </Routes>

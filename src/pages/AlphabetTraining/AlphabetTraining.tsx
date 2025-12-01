@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './AlphabetTraining.module.scss';
 
 const AlphabetTraining = () => {
@@ -11,6 +12,7 @@ const AlphabetTraining = () => {
   const [score, setScore] = useState({ correct: 0, incorrect: 0 });
   const [isWaitingForSubmit, setIsWaitingForSubmit] = useState(true);
   const [activeButton, setActiveButton] = useState<'dot' | 'dash' | 'delete' | null>(null);
+  const navigate = useNavigate();
 
   const previousLetter = useRef<string>('');
   const previousMorse = useRef<string>('');
@@ -211,8 +213,14 @@ const AlphabetTraining = () => {
   return (
     <div className={styles.alphabetTrainingContainer}>
       <div className={styles.fontBackground}></div>
-      
+      <button
+        className={styles.backButton}
+        onClick={() => navigate('/explore')}
+      >
+        ← Back to Explore
+      </button>
       <div className={styles.trainingHeader}>
+
         <h1 className={styles.trainingTitle}>Alphabet Training</h1>
         <p className={styles.trainingDescription}>
           Practice individual letters - translate letters to Morse code or Morse code to letters.

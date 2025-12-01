@@ -1,4 +1,4 @@
-.alphabetTrainingContainer {
+.wordTrainingContainer {
   position: relative;
   width: 100%;
   min-height: 100vh;
@@ -8,7 +8,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 80px 20px 60px;  
+  padding: 80px 20px 60px;
   position: relative;
 }
 
@@ -70,6 +70,34 @@
   border-radius: 4px;
   font-weight: bold;
   margin: 0 4px;
+}
+
+.difficultySelector {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
+  position: relative;
+  z-index: 1;
+}
+
+.difficultyButton {
+  padding: 10px 20px;
+  border: 2px solid #018682;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    box-shadow: 0 0 10px #018682;
+  }
+  
+  &.active {
+    background: #018682;
+    box-shadow: 0 0 15px #018682;
+  }
 }
 
 .modeSelector {
@@ -162,6 +190,15 @@
   margin-bottom: 15px;
 }
 
+.wordDisplay {
+  font-size: 2.5rem;
+  color: #00a09b;
+  font-weight: bold;
+  line-height: 1.2;
+  word-wrap: break-word;
+  text-align: center;
+}
+
 .letterDisplay {
   font-size: 4rem;
   color: #00a09b;
@@ -179,14 +216,17 @@
 }
 
 .morseDisplay {
-  font-size: 2.5rem;
+  font-size: 1.8rem;
   color: white;
   min-height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: monospace;
-  letter-spacing: 5px;
+  letter-spacing: 3px;
+  line-height: 1.4;
+  word-wrap: break-word;
+  text-align: center;
 }
 
 .placeholder {
@@ -327,15 +367,32 @@
 }
 
 .morseDisplayLarge {
-  font-size: 3rem;
+  font-size: 2rem;
   color: #00a09b;
   font-weight: bold;
   font-family: monospace;
-  letter-spacing: 8px;
+  letter-spacing: 4px;
   min-height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
+  line-height: 1.4;
+  word-wrap: break-word;
+  text-align: center;
+}
+
+.wordInputDisplay {
+  font-size: 2rem;
+  color: white;
+  font-weight: bold;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  line-height: 1.2;
+  word-wrap: break-word;
+  text-align: center;
 }
 
 .letterInputDisplay {
@@ -356,6 +413,7 @@
   justify-content: center;
   align-items: center;
   position: relative;
+  flex-wrap: wrap;
 }
 
 .inputButton {
@@ -454,12 +512,24 @@
     padding: 20px;
   }
   
+  .wordDisplay {
+    font-size: 2rem;
+  }
+  
   .letterDisplay {
     font-size: 3rem;
   }
   
   .morseDisplay {
-    font-size: 2rem;
+    font-size: 1.5rem;
+  }
+
+  .morseDisplayLarge {
+    font-size: 1.5rem;
+  }
+
+  .wordInputDisplay {
+    font-size: 1.5rem;
   }
 
   .inputButtonCont {
@@ -469,5 +539,54 @@
   .deleteButton {
     margin-left: 0;
     margin-top: 10px;
+  }
+
+  .backButton {
+    right: 20px;
+    top: 20px;
+    min-width: 140px;
+    font-size: 1rem;
+    padding: 10px 16px;
+  }
+
+  .difficultySelector {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .modeSelector {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .trainingTitle {
+    font-size: 1.8rem;
+    padding-top: 60px;
+  }
+
+  .trainingDescription {
+    font-size: 0.9rem;
+  }
+
+  .wordDisplay {
+    font-size: 1.8rem;
+  }
+
+  .morseDisplay {
+    font-size: 1.3rem;
+  }
+
+  .inputButton {
+    min-width: 80px;
+    padding: 10px 16px;
+    font-size: 1rem;
+  }
+
+  .backButton {
+    min-width: 120px;
+    font-size: 0.9rem;
+    padding: 8px 12px;
   }
 }
