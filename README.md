@@ -31,7 +31,7 @@ npm run dev
 
 - Real-time Feedback: Instant feedback on your Morse code input
 
-- Audio Support: Hear Morse code tones for better learning
+- Audio Training: Train Morse code tones for better learning
 
 ## Technologies Used
 
