@@ -1,3 +1,5 @@
+![alt text](public/assets/MorthLogo.png)
+
 # Morth - Morse Code Learning Platform
 
 Morth (a blend of "Morse" and "Moth") is a web-based application built with TypeScript that helps you practice Morse code through training modules.
