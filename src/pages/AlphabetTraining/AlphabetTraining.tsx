@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './AlphabetTraining.module.scss';
+import { Button } from '../../components/Button/Button';
 
 const AlphabetTraining = () => {
   const [trainingMode, setTrainingMode] = useState<'letterToMorse' | 'morseToLetter'>('letterToMorse');
@@ -213,14 +214,16 @@ const AlphabetTraining = () => {
   return (
     <div className={styles.alphabetTrainingContainer}>
       <div className={styles.fontBackground}></div>
-      <button
-        className={styles.backButton}
+      
+      <Button
+        className={styles.backButtonPosition}
         onClick={() => navigate('/explore')}
+        variant="primary"
       >
         ← Back to Explore
-      </button>
-      <div className={styles.trainingHeader}>
+      </Button>
 
+      <div className={styles.trainingHeader}>
         <h1 className={styles.trainingTitle}>Alphabet Training</h1>
         <p className={styles.trainingDescription}>
           Practice individual letters - translate letters to Morse code or Morse code to letters.
@@ -234,18 +237,18 @@ const AlphabetTraining = () => {
       </div>
 
       <div className={styles.modeSelector}>
-        <button
-          className={`${styles.modeButton} ${trainingMode === 'letterToMorse' ? styles.active : ''}`}
+        <Button
+          variant={trainingMode === 'letterToMorse' ? 'active' : 'primary'}
           onClick={() => setTrainingMode('letterToMorse')}
         >
           Letter → Morse
-        </button>
-        <button
-          className={`${styles.modeButton} ${trainingMode === 'morseToLetter' ? styles.active : ''}`}
+        </Button>
+        <Button
+          variant={trainingMode === 'morseToLetter' ? 'active' : 'primary'}
           onClick={() => setTrainingMode('morseToLetter')}
         >
           Morse → Letter
-        </button>
+        </Button>
       </div>
 
       <div className={styles.practiceArea}>
@@ -262,27 +265,31 @@ const AlphabetTraining = () => {
                 {userInput || <span className={styles.placeholder}></span>}
               </div>
               <div className={styles.inputButtonCont}>
-                <button
-                  className={`${styles.inputButton} ${activeButton === 'dot' ? styles.active : ''}`}
+                <Button
+                  variant={activeButton === 'dot' ? 'active' : 'primary'}
                   onClick={addDot}
                   disabled={userInput.length >= 4}
+                  className={styles.inputBtnWrapper}
                 >
                   •
-                </button>
-                <button
-                  className={`${styles.inputButton} ${activeButton === 'dash' ? styles.active : ''}`}
+                </Button>
+                <Button
+                  variant={activeButton === 'dash' ? 'active' : 'primary'}
                   onClick={addDash}
                   disabled={userInput.length >= 4}
+                  className={styles.inputBtnWrapper}
                 >
                   –
-                </button>
-                <button
-                  className={`${styles.deleteButton} ${activeButton === 'delete' ? styles.active : ''}`}
-                  onClick={handleDelete}
-                  disabled={!userInput}
-                >
-                  ⌫
-                </button>
+                </Button>
+                <div className={styles.deleteBtnWrapper}>
+                  <Button
+                    variant={activeButton === 'delete' ? 'active' : 'icon'}
+                    onClick={handleDelete}
+                    disabled={!userInput}
+                  >
+                    ⌫
+                  </Button>
+                </div>
               </div>
             </div>
           </>
@@ -330,27 +337,29 @@ const AlphabetTraining = () => {
         <div className={styles.actions}>
           {!feedback ? (
             <>
-              <button 
-                className={styles.submitButton} 
+              <Button 
+                className={styles.actionBtn}
                 onClick={checkAnswer}
                 disabled={trainingMode === 'letterToMorse' ? !userInput : !userLetterInput}
               >
                 Submit (Enter)
-              </button>
-              <button 
-                className={styles.skipButton} 
+              </Button>
+              <Button 
+                variant="danger"
+                className={styles.actionBtn}
                 onClick={skipLetter}
               >
                 Skip
-              </button>
+              </Button>
             </>
           ) : (
-            <button 
-              className={styles.nextButton} 
+            <Button 
+              variant="active"
+              className={styles.actionBtn}
               onClick={handleNextLetter}
             >
               Next (Enter)
-            </button>
+            </Button>
           )}
         </div>
       </div>

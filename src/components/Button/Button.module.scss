@@ -1,66 +1,78 @@
 .button {
-  padding: 14px 30px;
-  border-radius: 30px;
-  font-weight: 600;
+  /* Base styles (commun à tous les boutons) */
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
-
-  &.primary {
-    background-color: #026360;
-    color: white;
-    border: none;
-    
-    &:hover {
-      background-color: #0a7a77;
-      box-shadow: 0 4px 12px rgba(2, 99, 96, 0.3);
-    }
-  }
-
-  &.secondary {
-    background-color: transparent;
-    color: #026360;
-    border: 2px solid #026360;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s ease;
-    
-    &:hover {
-      color: white;
-      background-color: #026360;
-      
-      &::before {
-        display: none;
-      }
-    }
-    
-    &::before {
-      display: none;
-    }
-  }
-
-  &.tertiary {
-    background-color: white;
-    color: #026360;
-    border: none;
-    
-    &:hover {
-      background-color: #f0f0f0;
-    }
-  }
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-family: inherit;
   
+  /* Style par défaut (Primary - Outlined) */
+  background: rgba(0, 0, 0, 0.8);
+  border: 2px solid #018682;
+  color: white;
+
+  &:hover:not(:disabled) {
+    box-shadow: 0 0 15px #018682;
+    background: rgba(1, 134, 130, 0.1);
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.95);
+    background: #018682;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    border-color: #666;
+    box-shadow: none;
+  }
+
+  /* Variantes */
+  
+  /* 1. Active / Filled (Pour le bouton "Next" ou l'état sélectionné) */
+  &.active {
+    background: #018682;
+    box-shadow: 0 0 20px #018682;
+    border-color: #00a09b; // Un peu plus clair
+
+    &:hover:not(:disabled) {
+      background: #00a09b;
+      box-shadow: 0 0 25px #00a09b;
+    }
+  }
+
+  /* 2. Danger / Skip (Pour le bouton "Skip") */
+  &.danger {
+    border-color: #002b29;
+    
+    &:hover:not(:disabled) {
+      background: #002b29;
+      box-shadow: 0 0 15px #002b29;
+    }
+  }
+
+  /* 3. Icon (Pour le bouton delete, plus carré) */
+  &.icon {
+    padding: 12px;
+    min-width: 60px;
+    font-size: 1.3rem;
+  }
+
+  /* Tailles optionnelles */
   &.small {
-  padding: 16px 32px;
-  font-size: 1.5rem;
-  border-radius: 10px;
-  
-  @media (max-width: 768px) {
-    font-size: 1.1rem;
+    padding: 8px 16px;
+    font-size: 0.9rem;
   }
-}
 
-  &.medium {
+  &.large {
     padding: 16px 32px;
-    font-size: 1.8rem;
-    border-radius: 10px;
+    font-size: 1.3rem;
   }
 }

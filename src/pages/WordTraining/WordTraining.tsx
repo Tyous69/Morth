@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './WordTraining.module.scss';
+import { Button } from '../../components/Button/Button';
 
 const WordTraining = () => {
   const [trainingMode, setTrainingMode] = useState<'wordToMorse' | 'morseToWord'>('wordToMorse');
@@ -280,12 +281,15 @@ const WordTraining = () => {
   return (
     <div className={styles.wordTrainingContainer}>
       <div className={styles.fontBackground}></div>
-      <button
+      
+      <Button
         className={styles.backButton}
         onClick={() => navigate('/explore')}
+        variant="primary"
       >
         ← Back to Explore
-      </button>
+      </Button>
+
       <div className={styles.trainingHeader}>
         <h1 className={styles.trainingTitle}>Word Training</h1>
         <p className={styles.trainingDescription}>
@@ -300,39 +304,44 @@ const WordTraining = () => {
       </div>
 
       <div className={styles.difficultySelector}>
-        <button
-          className={`${styles.difficultyButton} ${difficulty === 'easy' ? styles.active : ''}`}
+        <Button
+          className={styles.difficultyButton}
+          variant={difficulty === 'easy' ? 'active' : 'primary'}
           onClick={() => setDifficulty('easy')}
         >
           Easy
-        </button>
-        <button
-          className={`${styles.difficultyButton} ${difficulty === 'medium' ? styles.active : ''}`}
+        </Button>
+        <Button
+          className={styles.difficultyButton}
+          variant={difficulty === 'medium' ? 'active' : 'primary'}
           onClick={() => setDifficulty('medium')}
         >
           Medium
-        </button>
-        <button
-          className={`${styles.difficultyButton} ${difficulty === 'hard' ? styles.active : ''}`}
+        </Button>
+        <Button
+          className={styles.difficultyButton}
+          variant={difficulty === 'hard' ? 'active' : 'primary'}
           onClick={() => setDifficulty('hard')}
         >
           Hard
-        </button>
+        </Button>
       </div>
 
       <div className={styles.modeSelector}>
-        <button
-          className={`${styles.modeButton} ${trainingMode === 'wordToMorse' ? styles.active : ''}`}
+        <Button
+          className={styles.modeButton}
+          variant={trainingMode === 'wordToMorse' ? 'active' : 'primary'}
           onClick={() => setTrainingMode('wordToMorse')}
         >
           Word → Morse
-        </button>
-        <button
-          className={`${styles.modeButton} ${trainingMode === 'morseToWord' ? styles.active : ''}`}
+        </Button>
+        <Button
+          className={styles.modeButton}
+          variant={trainingMode === 'morseToWord' ? 'active' : 'primary'}
           onClick={() => setTrainingMode('morseToWord')}
         >
           Morse → Word
-        </button>
+        </Button>
       </div>
 
       <div className={styles.practiceArea}>
@@ -349,31 +358,35 @@ const WordTraining = () => {
                 {userInput || <span className={styles.placeholder}></span>}
               </div>
               <div className={styles.inputButtonCont}>
-                <button
-                  className={`${styles.inputButton} ${activeButton === 'dot' ? styles.active : ''}`}
+                <Button
+                  className={styles.inputButton}
+                  variant={activeButton === 'dot' ? 'active' : 'primary'}
                   onClick={addDot}
                 >
                   •
-                </button>
-                <button
-                  className={`${styles.inputButton} ${activeButton === 'dash' ? styles.active : ''}`}
+                </Button>
+                <Button
+                  className={styles.inputButton}
+                  variant={activeButton === 'dash' ? 'active' : 'primary'}
                   onClick={addDash}
                 >
                   –
-                </button>
-                <button
-                  className={`${styles.inputButton} ${activeButton === 'space' ? styles.active : ''}`}
+                </Button>
+                <Button
+                  className={styles.inputButton}
+                  variant={activeButton === 'space' ? 'active' : 'primary'}
                   onClick={addSpace}
                 >
                   Space
-                </button>
-                <button
-                  className={`${styles.deleteButton} ${activeButton === 'delete' ? styles.active : ''}`}
+                </Button>
+                <Button
+                  className={styles.deleteButton}
+                  variant={activeButton === 'delete' ? 'active' : 'icon'}
                   onClick={handleDelete}
                   disabled={!userInput}
                 >
                   ⌫
-                </button>
+                </Button>
               </div>
             </div>
           </>
@@ -421,27 +434,29 @@ const WordTraining = () => {
         <div className={styles.actions}>
           {!feedback ? (
             <>
-              <button 
+              <Button 
                 className={styles.submitButton} 
                 onClick={checkAnswer}
                 disabled={trainingMode === 'wordToMorse' ? !userInput : !userWordInput}
               >
                 Submit (Enter)
-              </button>
-              <button 
+              </Button>
+              <Button 
+                variant="danger"
                 className={styles.skipButton} 
                 onClick={skipWord}
               >
                 Skip
-              </button>
+              </Button>
             </>
           ) : (
-            <button 
+            <Button 
+              variant="active"
               className={styles.nextButton} 
               onClick={handleNextWord}
             >
               Next (Enter)
-            </button>
+            </Button>
           )}
         </div>
       </div>

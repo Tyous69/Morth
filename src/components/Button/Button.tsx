@@ -1,23 +1,24 @@
 import React from 'react';
 import styles from './Button.module.scss';
 
-interface ButtonProps {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  onClick?: () => void;
-  variant?: 'primary' | 'secondary' | 'tertiary' | 'quaternary';
-  size?: string;
+  variant?: 'primary' | 'active' | 'danger' | 'icon';
+  size?: 'small' | 'medium' | 'large';
+  className?: string; // Pour permettre le positionnement depuis le parent
 }
 
 export const Button = ({ 
   children, 
-  onClick, 
   variant = 'primary',
-  size
+  size,
+  className = '',
+  ...props
 }: ButtonProps) => {
   return (
     <button
-      className={`${styles.button} ${styles[variant]} ${size ? styles[size] : ''}`}
-      onClick={onClick}
+      className={`${styles.button} ${styles[variant]} ${size ? styles[size] : ''} ${className}`}
+      {...props}
     >
       {children}
     </button>
