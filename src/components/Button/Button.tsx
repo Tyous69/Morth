@@ -5,7 +5,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   variant?: 'primary' | 'active' | 'danger' | 'icon';
   size?: 'small' | 'medium' | 'large';
-  className?: string; // Pour permettre le positionnement depuis le parent
+  className?: string; 
 }
 
 export const Button = ({ 

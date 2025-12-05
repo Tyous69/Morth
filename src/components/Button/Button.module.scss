@@ -1,5 +1,4 @@
 .button {
-  /* Base styles (commun à tous les boutons) */
   padding: 12px 24px;
   border-radius: 10px;
   font-size: 1.1rem;
@@ -12,7 +11,6 @@
   text-decoration: none;
   font-family: inherit;
   
-  /* Style par défaut (Primary - Outlined) */
   background: rgba(0, 0, 0, 0.8);
   border: 2px solid #018682;
   color: white;
@@ -34,13 +32,11 @@
     box-shadow: none;
   }
 
-  /* Variantes */
   
-  /* 1. Active / Filled (Pour le bouton "Next" ou l'état sélectionné) */
   &.active {
     background: #018682;
     box-shadow: 0 0 20px #018682;
-    border-color: #00a09b; // Un peu plus clair
+    border-color: #00a09b;
 
     &:hover:not(:disabled) {
       background: #00a09b;
@@ -48,7 +44,6 @@
     }
   }
 
-  /* 2. Danger / Skip (Pour le bouton "Skip") */
   &.danger {
     border-color: #002b29;
     
@@ -58,14 +53,12 @@
     }
   }
 
-  /* 3. Icon (Pour le bouton delete, plus carré) */
   &.icon {
     padding: 12px;
     min-width: 60px;
     font-size: 1.3rem;
   }
 
-  /* Tailles optionnelles */
   &.small {
     padding: 8px 16px;
     font-size: 0.9rem;
