@@ -219,11 +219,15 @@ const WordTraining = () => {
     }
   };
 
+  // ✅ UPDATED: Prevents double spaces and spaces at start
   const addSpace = () => {
     if (trainingMode === 'wordToMorse' && isWaitingForSubmit && !feedback) {
-      setUserInput(prev => prev + ' ');
-      setActiveButton('space');
-      setTimeout(() => setActiveButton(null), 150);
+      // Check if userInput is empty OR if the last character is already a space
+      if (userInput.length > 0 && userInput.slice(-1) !== ' ') {
+        setUserInput(prev => prev + ' ');
+        setActiveButton('space');
+        setTimeout(() => setActiveButton(null), 150);
+      }
     }
   };
 
@@ -251,6 +255,7 @@ const WordTraining = () => {
       } else if (event.key === 'k' || event.key === 'K') {
         addDash();
       } else if (event.key === ' ') {
+        event.preventDefault(); // Optional: prevents page scrolling on Space
         addSpace();
       } else if (event.key === 'Enter') {
         checkAnswer();
