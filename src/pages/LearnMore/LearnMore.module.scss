@@ -1,18 +1,19 @@
 .learnMoreContainer {
   position: relative;
   width: 100%;
-  min-height: min-content; /* Adjusts to content */
+  min-height: min-content; 
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 100px; /* Equal padding all around */
+  padding: 100px; 
   background: rgb(0, 0, 0);
   overflow: hidden;
   scroll-margin-top: -80px;
 
   @media (max-width: 768px) {
-    padding: 40px 20px;
+    padding: 80px 15px 40px;
     scroll-margin-top: -20px;
+    display: block;
   }
 } 
 
@@ -33,7 +34,8 @@
   animation: smoothGlow 4s ease-in-out infinite;
 
   @media (max-width: 768px) {
-    padding: 20px;
+    padding: 20px 15px;
+    border-radius: 15px;
   }
 }
 
@@ -72,6 +74,10 @@
 .logoSection {
   margin-bottom: 40px;
   text-align: center;
+  
+  @media (max-width: 768px) {
+    margin-bottom: 25px;
+  }
 }
 
 .logo {
@@ -85,6 +91,10 @@
     opacity: 1;
     transform: scale(1);
   }
+  
+  @media (max-width: 768px) {
+    width: 100px;
+  }
 }
 
 .textContent {
@@ -92,6 +102,10 @@
   color: white;
   width: 100%;
   padding: 15px;
+  
+  @media (max-width: 768px) {
+    padding: 5px;
+  }
 }
 
 .title {
@@ -109,7 +123,9 @@
   }
 
   @media (max-width: 768px) {
-    font-size: 2rem;
+    font-size: 1.8rem;
+    line-height: 1.2;
+    margin-bottom: 15px;
   }
 }
 
@@ -128,9 +144,9 @@
 
   @media (max-width: 768px) {
     font-size: 1rem;
+    line-height: 1.5;
   }
 }
-
 
 .subtitle {
   font-size: 2rem;
@@ -148,6 +164,8 @@
 
   @media (max-width: 768px) {
     font-size: 1.5rem;
+    margin: 20px 0 15px;
+    padding: 5px;
   }
 }
 
@@ -157,6 +175,10 @@
   gap: 25px;
   margin: 20px 0 30px 0;
   width: 100%;
+  
+  @media (max-width: 768px) {
+    gap: 15px;
+  }
 }
 
 .feature {
@@ -174,25 +196,27 @@
     transform: translateY(0);
   }
 
-  &:nth-of-type(1) {
-    transition-delay: 0.6s;
-  }
-  &:nth-of-type(2) {
-    transition-delay: 0.7s;
-  }
-  &:nth-of-type(3) {
-    transition-delay: 0.8s;
-  }
+  &:nth-of-type(1) { transition-delay: 0.6s; }
+  &:nth-of-type(2) { transition-delay: 0.7s; }
+  &:nth-of-type(3) { transition-delay: 0.8s; }
 
   h3 {
     color: #018682;
     margin-bottom: 10px;
     font-size: 1.4rem;
+    
+    @media (max-width: 768px) {
+      font-size: 1.2rem;
+    }
   }
 
   p {
     margin: 0;
     line-height: 1.5;
+    
+    @media (max-width: 768px) {
+      font-size: 0.95rem;
+    }
   }
 }
 

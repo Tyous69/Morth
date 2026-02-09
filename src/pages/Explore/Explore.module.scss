@@ -9,6 +9,29 @@
   flex-direction: column;
   align-items: center;
   padding: 60px 20px;
+  
+  @media (max-width: 768px) {
+    margin-top: 110px;
+    min-height: auto;
+    padding: 40px 15px;
+  }
+}
+
+.backButtonPosition {
+  position: absolute;
+  right: 100px;
+  top: 50px;
+  z-index: 2;
+  min-width: 180px;
+
+  @media (max-width: 768px) {
+    position: relative;
+    right: auto;
+    top: auto;
+    margin-bottom: 20px;
+    min-width: 100%;
+    order: -1;
+  }
 }
 
 .fontBackground {
@@ -30,8 +53,9 @@
   z-index: 1;
   
   @media (max-width: 768px) {
-    font-size: 2.4rem;
-    margin-bottom: 40px;
+    font-size: 2.2rem;
+    margin-bottom: 25px;
+    line-height: 1.2;
   }
 }
 
@@ -44,7 +68,9 @@
   z-index: 1;
 
   @media (max-width: 768px) {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    margin-bottom: 50px;
+    line-height: 1.5;
   }
 }
 
@@ -65,6 +91,7 @@
     flex-direction: column;
     align-items: center;
     gap: 30px;
+    width: 100%;
   }
 }
 
@@ -74,6 +101,12 @@
   min-height: 250px;
   cursor: pointer;
   transition: all 0.6s ease-in-out;
+  
+  @media (max-width: 768px) {
+    width: 100%;
+    max-width: 340px;
+    min-height: 200px;
+  }
   
   &.active {
     transform: translateY(-10px);
@@ -96,6 +129,10 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  
+  @media (max-width: 768px) {
+    padding: 25px;
+  }
 }
 
 .cardHoverContent {
@@ -116,6 +153,13 @@
     padding-top: 20px;
     padding-bottom: 20px;
   }
+
+  @media (max-width: 768px) {
+    opacity: 1;
+    max-height: 500px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
 }
 
 .cardMainContent {
@@ -127,6 +171,10 @@
   color: white;
   min-height: 150px;
   flex-shrink: 0;
+  
+  @media (max-width: 768px) {
+    min-height: 120px;
+  }
 }
 
 .hoverTitle {
@@ -139,6 +187,11 @@
   transition: all 0.4s ease-in-out 0.2s;
   
   .cardWrapper.active & {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 768px) {
     opacity: 1;
     transform: translateY(0);
   }
@@ -157,9 +210,12 @@
     opacity: 1;
     transform: translateY(0);
   }
+
+  @media (max-width: 768px) {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-
-
 
 @keyframes smoothGlow {
   0%, 100% {
@@ -192,8 +248,13 @@
 }
 
 .speakerIcon {
+  margin-top: -10px;
   width: 80px;
   height: 80px;
   filter: brightness(0) invert(1);
+  
+  @media (max-width: 768px) {
+    width: 60px;
+    height: 60px;
+  }
 }
-

@@ -9,6 +9,11 @@
   flex-direction: column;
   align-items: center;
   padding: 80px 20px 60px;  
+
+  @media (max-width: 768px) {
+    margin-top: 110px;
+    padding: 40px 15px;
+  }
 }
 
 .fontBackground {
@@ -26,6 +31,10 @@
   margin-bottom: 40px;
   position: relative;
   z-index: 1;
+
+  @media (max-width: 768px) {
+    margin-bottom: 25px;
+  }
 }
 
 .trainingTitle {
@@ -38,7 +47,9 @@
   z-index: 1;
   
   @media (max-width: 768px) {
+    padding-top: 10px;
     font-size: 2rem;
+    line-height: 1.2;
   }
 }
 
@@ -52,6 +63,7 @@
 
   @media (max-width: 768px) {
     font-size: 1rem;
+    padding: 0 10px;
   }
 }
 
@@ -69,9 +81,16 @@
   margin-bottom: 40px;
   position: relative;
   z-index: 1;
+  
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 25px;
+  }
 }
 
-/* On garde uniquement le positionnement spécifique du bouton Back */
+/* Updated positioning for Mobile */
 .backButtonPosition {
   position: absolute;
   right: 100px;
@@ -80,11 +99,13 @@
   min-width: 180px;
 
   @media (max-width: 768px) {
-    right: 20px;
-    top: 20px;
-    min-width: 140px;
-    font-size: 1rem;
-    padding: 10px 16px; 
+    /* Switch from fixed right position to flow content or top center */
+    position: relative;
+    right: auto;
+    top: auto;
+    margin-bottom: 20px;
+    min-width: 100%;
+    order: -1;
   }
 }
 
@@ -101,13 +122,18 @@
   box-shadow: 0 0 20px rgba(1, 134, 130, 0.5);
   
   @media (max-width: 768px) {
-    padding: 20px;
+    padding: 25px 15px;
+    border-radius: 15px;
   }
 }
 
 .promptSection {
   text-align: center;
   margin-bottom: 30px;
+  
+  @media (max-width: 768px) {
+    margin-bottom: 20px;
+  }
 }
 
 .promptLabel {
@@ -122,7 +148,7 @@
   font-weight: bold;
   
   @media (max-width: 768px) {
-    font-size: 3rem;
+    font-size: 3.5rem;
   }
 }
 
@@ -147,7 +173,8 @@
   letter-spacing: 5px;
   
   @media (max-width: 768px) {
-    font-size: 2rem;
+    font-size: 1.8rem;
+    min-height: 50px;
   }
 }
 
@@ -186,8 +213,8 @@
   z-index: 1;
   
   @media (max-width: 768px) {
-    flex-direction: column;
-    gap: 20px;
+    flex-direction: column-reverse; 
+    gap: 25px;
   }
 }
 
@@ -197,6 +224,11 @@
   
   @media (max-width: 768px) {
     gap: 20px;
+    width: 100%;
+    justify-content: center;
+    background: rgba(255,255,255,0.05);
+    padding: 10px;
+    border-radius: 10px;
   }
 }
 
@@ -223,13 +255,16 @@
   gap: 15px;
   
   @media (max-width: 768px) {
-    flex-direction: column;
     width: 100%;
-    max-width: 200px;
+    justify-content: center;
+    
+    .actionBtn {
+      flex: 1;
+      max-width: 150px;
+    }
   }
 }
 
-/* Styles spécifiques pour la largeur minimum des boutons d'action */
 .actionBtn {
   min-width: 120px;
 }
@@ -250,6 +285,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  
+  @media (max-width: 768px) {
+    font-size: 2rem;
+    min-height: 60px;
+    letter-spacing: 4px;
+  }
 }
 
 .letterInputDisplay {
@@ -261,6 +302,11 @@
   align-items: center;
   justify-content: center;
   text-transform: uppercase;
+  
+  @media (max-width: 768px) {
+    font-size: 3rem;
+    min-height: 60px;
+  }
 }
 
 .inputButtonCont {
@@ -273,12 +319,17 @@
   
   @media (max-width: 768px) {
     flex-wrap: wrap;
+    width: 100%;
   }
 }
 
-/* Conteneur pour s'assurer que les inputs ont une taille cohérente */
 .inputBtnWrapper {
   min-width: 100px;
+  
+  @media (max-width: 768px) {
+    flex: 1;
+    min-width: 40%;
+  }
 }
 
 .deleteBtnWrapper {
@@ -287,6 +338,9 @@
   @media (max-width: 768px) {
     margin-left: 0;
     margin-top: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
   }
 }
 
@@ -296,4 +350,8 @@
   text-align: center;
   margin-top: 10px;
   font-style: italic;
+  
+  @media (max-width: 768px) {
+    font-size: 0.85rem;
+  }
 }

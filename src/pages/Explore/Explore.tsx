@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Explore.module.scss';
+import { Button } from '../../components/Button/Button';
 
 const Explore = () => {
   const [activeCard, setActiveCard] = useState<number | null>(null);
@@ -11,16 +12,16 @@ const Explore = () => {
       id: 1,
       title: "Alphabet Training",
       description: "Practice individual letters - translate letters to Morse code or Morse code to letters.",
-      topContent: "A B C",
-      bottomContent: "·− −··· −·−·",
+      topContent: <div className={styles.cardTop}>A B C</div>,
+      bottomContent: <div className={styles.cardBottom}>·− −··· −·−·</div>,
       path: "/alphabet-training"
     },
     {
       id: 2,
       title: "Word Training",
       description: "Translate entire words with difficulty levels (easy, medium, hard). Choose between text to Morse or Morse to text.",
-      topContent: "Hello",
-      bottomContent: "···· · ·−·· ·−·· −−−",
+      topContent: <div className={styles.cardTop}>Hello</div>,
+      bottomContent: <div className={styles.cardBottom}>···· · ·−·· ·−·· −−−</div>,
       path: "/word-training"
     },
     {
@@ -28,7 +29,7 @@ const Explore = () => {
       title: "Sound Training",
       description: "Listen to Morse code audio and identify letters or words. Perfect for developing your listening skills.",
       topContent: <img src="/assets/SpeakerIcon.png" alt="Speaker" className={styles.speakerIcon} />,
-      bottomContent: "",
+      bottomContent: <div className={styles.cardBottom}>dit dah</div>,
       path: "/sound-training"
     }
   ];
@@ -40,6 +41,14 @@ const Explore = () => {
   return (
     <div className={styles.exploreContainer}>
       <div className={styles.fontBackground}></div>
+      
+      <Button
+        className={styles.backButtonPosition}
+        onClick={() => navigate('/')}
+        variant="primary"
+      >
+        ← Back to Home
+      </Button>
       
       <div className={styles.exploreTitle}>
         Explore Training Modes
@@ -57,20 +66,11 @@ const Explore = () => {
             onMouseEnter={() => setActiveCard(mode.id)}
             onMouseLeave={() => setActiveCard(null)}
             onClick={() => handleCardClick(mode.path)}
-            style={{ cursor: 'pointer' }}
           >
             <div className={styles.neonCard}>
               <div className={styles.cardMainContent}>
-                {mode.id === 3 ? (
-                  <div className={styles.speakerIcon}>{mode.topContent}</div>
-                ) : (
-                  <>
-                    <div className={styles.cardTop}>{mode.topContent}</div>
-                    {mode.bottomContent && (
-                      <div className={styles.cardBottom}>{mode.bottomContent}</div>
-                    )}
-                  </>
-                )}
+                {mode.topContent}
+                {mode.bottomContent}
               </div>
               
               <div className={styles.cardHoverContent}>

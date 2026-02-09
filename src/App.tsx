@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import ScrollToTop from './components/ui/ScrollToTop';
 import Header from './components/layout/Header/Header';
 import Footer from './components/layout/Footer/Footer';
 import Home from './pages/Home/Home';
@@ -10,6 +11,7 @@ import WordTraining from './pages/WordTraining/WordTraining';
 function App() {
   return (
     <BrowserRouter>
+    <ScrollToTop />
       <div className="app-container">
         <Header />
         <main>

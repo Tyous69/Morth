@@ -7,6 +7,13 @@
   min-height: 90vh;
   margin-top: 110px;
   overflow: hidden;
+  background: #000;
+  contain: paint; 
+  
+  @media (max-width: 768px) {
+    margin-top: 110px;
+    min-height: 80vh;
+  }
 }
 
 .welcome {
@@ -16,6 +23,13 @@
   z-index: 1;
   text-align: center;
   margin-top: 50px;
+  pointer-events: none;
+  line-height: 1.1;
+
+  @media (max-width: 768px) {
+    font-size: 40px;
+    margin-top: 50px;
+  }
 }
 
 .title {
@@ -24,6 +38,12 @@
   position: relative;
   z-index: 1;
   text-align: center;
+  pointer-events: none;
+  line-height: 1.1;
+
+  @media (max-width: 768px) {
+    font-size: 55px;
+  }
 }
 
 .info {
@@ -33,6 +53,14 @@
   text-align: center;
   margin-top: 70px;
   font-size: 35px;
+  pointer-events: none;
+  padding: 0 20px;
+
+  @media (max-width: 768px) {
+    font-size: 18px;
+    margin-top: 40px;
+    line-height: 1.4;
+  }
 }
 
 .numerouno {
@@ -43,26 +71,39 @@
   margin-top: 55px;
   padding: 20px;
   position: relative;
-  z-index: 1;
+  z-index: 2; 
   text-align: center;
   display: flex;
   justify-content: center;
   gap: 25px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-top: 40px;
+    
+    button {
+      width: 100%;
+      max-width: 280px;
+    }
+  }
 }
 
 @mixin dots($count) {
-  $colors: #008580, #006865, #00918c, #00b8b2,#00c3bd;
-  $text-shadow: ();
+  $colors: #008580, #006865, #00918c, #00b8b2, #00c3bd;
+  $box-shadow: ();
   
   @for $i from 0 through $count {
-    $random-color: list.nth($colors, math.random(3));
-    $text-shadow: $text-shadow,
-                 (-.5+(math.random()) * 3) + em
-                 (-.5+(math.random()) * 3) + em
-                 7px
+    $random-color: list.nth($colors, math.random(5));
+    
+    $box-shadow: $box-shadow,
+                 (math.random(200) - 100) + vmin
+                 (math.random(200) - 100) + vmin
+                 0px
                  $random-color;
   }
-  text-shadow: $text-shadow;
+  box-shadow: $box-shadow;
 }
 
 .fontBackground {
@@ -71,72 +112,43 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgb(0, 0, 0);
-  font: 5vmin/1.3 Serif;
   overflow: hidden;
+  pointer-events: none;
   
   &::before, &::after {
+    content: '';
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 3em;
-    height: 3em;
-    content: '.';
-    color: transparent;
-    animation: 44s -27s move infinite ease-in-out alternate;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: transparent;
+    animation: move 120s infinite linear; 
+    will-change: transform;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
   }
 
   &::before {
-    @include dots(40);
-    animation-duration: 35s;
-    animation-delay: -27s;
+    @include dots(50); 
+    animation-duration: 90s;
+    animation-delay: -10s;
   }
 
   &::after {
     @include dots(40);
-    animation-duration: 43s;
-    animation-delay: -32s;
-  }
-  
-  &::first-line {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 3em;
-    height: 3em;
-    content: '.';
-    color: transparent;
-    @include dots(30);
-    animation: 50s -15s move infinite ease-in-out alternate;
-    opacity: 0.7;
+    animation-duration: 55s;
+    animation-delay: -20s;
+    opacity: 0.6;
   }
 }
 
 @keyframes move {
   from {
-    transform: rotate(0deg) scale(12) translateX(0);
+    transform: translate3d(-50%, -50%, 0) rotate(0deg);
   }
   to {
-    transform: rotate(360deg) scale(18) translateX(0);
-  }
-}
-
-@media (max-width: 768px) {
-  .homeContainer {
-    min-height: 60vh;
-  }
-  .welcome {
-    font-size: 42px;
-  }
-  .title {
-    font-size: 62px;
-  }
-  .info {
-    font-size: 20px;
-    padding-right: 10px;
-    padding-left: 10px;
-  }
-  .buttons {
-    padding: 10px;
+    transform: translate3d(-50%, -50%, 0) rotate(360deg);
   }
 }
