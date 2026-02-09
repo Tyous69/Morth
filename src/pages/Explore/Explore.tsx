@@ -27,7 +27,7 @@ const Explore = () => {
     {
       id: 3,
       title: "Sound Training",
-      description: "Listen to Morse code audio and identify letters or words. Perfect for developing your listening skills.",
+      description: "Listen to Morse code audio and identify letters or words with difficulty levels (easy, medium, hard) and speed levels (slow, normal, fast). Perfect for developing your listening skills.",
       topContent: <img src="/assets/SpeakerIcon.png" alt="Speaker" className={styles.speakerIcon} />,
       bottomContent: <div className={styles.cardBottom}>dit dah</div>,
       path: "/sound-training"

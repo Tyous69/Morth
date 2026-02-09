@@ -15,8 +15,10 @@ const AlphabetTraining = () => {
   const [activeButton, setActiveButton] = useState<'dot' | 'dash' | 'delete' | null>(null);
   const navigate = useNavigate();
 
-  const previousLetter = useRef<string>('');
+  const previousLetter = useRef<string>(''); 
   const previousMorse = useRef<string>('');
+  const inputRef = useRef<HTMLInputElement>(null);
+  const ignoreEnterRef = useRef(false); // <--- Add this line
 
   const morseAlphabet: { [key: string]: string } = {
     'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.', 'G': '--.',
@@ -69,10 +71,21 @@ const AlphabetTraining = () => {
     setFeedback(null);
     setIsWaitingForSubmit(true);
     setActiveButton(null);
+    
+    // Auto-focus input when generating new exercise if in text mode
+    if (trainingMode === 'morseToLetter') {
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 50);
+    }
   }, [trainingMode, getRandomLetter, getRandomMorse]);
 
   const checkAnswer = () => {
     if (!isWaitingForSubmit) return;
+
+    // Block global Enter key for 500ms to prevent skipping feedback
+    ignoreEnterRef.current = true;
+    setTimeout(() => { ignoreEnterRef.current = false; }, 500);
 
     if (trainingMode === 'letterToMorse') {
       const correctMorse = morseAlphabet[currentLetter];
@@ -93,6 +106,8 @@ const AlphabetTraining = () => {
         incorrect: !isCorrect ? prev.incorrect + 1 : prev.incorrect
       }));
     } else {
+      if (!userLetterInput) return;
+
       const correctLetter = morseToLetterMap[currentMorse];
       const normalizedUserInput = userLetterInput.trim().toUpperCase();
       
@@ -165,9 +180,12 @@ const AlphabetTraining = () => {
     }
   };
 
-  const handleKeyPress = useCallback((event: KeyboardEvent) => {
+  // Handle physical keyboard for Morse Entry (J/K)
+  // For text entry, we rely on the input's native events
+  const handleGlobalKeyPress = useCallback((event: KeyboardEvent) => {
     if (feedback) {
-      if (event.key === 'Enter') {
+      // Only proceed if we aren't ignoring Enter
+      if (event.key === 'Enter' && !ignoreEnterRef.current) {
         handleNextLetter();
       }
       return;
@@ -177,35 +195,30 @@ const AlphabetTraining = () => {
 
     if (trainingMode === 'letterToMorse') {
       if (event.key === 'j' || event.key === 'J') {
-        if (userInput.length < 4) {
-          addDot();
-        }
+        if (userInput.length < 4) addDot();
       } else if (event.key === 'k' || event.key === 'K') {
-        if (userInput.length < 4) {
-          addDash();
-        }
+        if (userInput.length < 4) addDash();
       } else if (event.key === 'Enter') {
         checkAnswer();
       } else if (event.key === 'Backspace') {
         handleDelete();
       }
-    } else {
-      if (event.key === 'Enter') {
-        checkAnswer();
-      } else if (event.key === 'Backspace') {
-        setUserLetterInput(prev => prev.slice(0, -1));
-      } else if (/^[a-zA-Z]$/.test(event.key)) {
-        setUserLetterInput(event.key.toUpperCase());
-      }
     }
   }, [isWaitingForSubmit, feedback, trainingMode, checkAnswer, handleNextLetter, userInput]);
 
   useEffect(() => {
-    window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [handleKeyPress]);
+    window.addEventListener('keydown', handleGlobalKeyPress);
+    return () => window.removeEventListener('keydown', handleGlobalKeyPress);
+  }, [handleGlobalKeyPress]);
 
+  // Handle focus when switching modes
   useEffect(() => {
+    if (trainingMode === 'morseToLetter') {
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 50);
+    }
+    
     previousLetter.current = '';
     previousMorse.current = '';
     generateNewExercise();
@@ -303,7 +316,29 @@ const AlphabetTraining = () => {
             <div className={styles.inputSection}>
               <div className={styles.inputLabel}>Your answer (letter):</div>
               <div className={styles.letterInputDisplay}>
-                {userLetterInput || <span className={styles.placeholder}></span>}
+                <input
+                  ref={inputRef}
+                  type="text"
+                  className={styles.nativeInput}
+                  value={userLetterInput}
+                  onChange={(e) => {
+                    const val = e.target.value.toUpperCase();
+                    if (val.length <= 1 && /^[A-Z]*$/.test(val)) {
+                      setUserLetterInput(val);
+                    }
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      checkAnswer();
+                    }
+                  }}
+                  disabled={!isWaitingForSubmit}
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="characters"
+                  spellCheck={false}
+                  autoFocus
+                />
               </div>
               <div className={styles.inputHint}>
                 Type the letter (A-Z)

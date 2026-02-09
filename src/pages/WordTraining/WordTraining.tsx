@@ -17,6 +17,8 @@ const WordTraining = () => {
   const navigate = useNavigate();
 
   const previousWord = useRef<string>('');
+  const inputRef = useRef<HTMLInputElement>(null);
+  const ignoreEnterRef = useRef(false); // <--- Add this line
 
   const morseAlphabet: { [key: string]: string } = {
     'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.', 'G': '--.',
@@ -27,7 +29,7 @@ const WordTraining = () => {
 
   const wordLists = {
     easy: [
-      'HELLO', 'WORLD', 'QUICK', 'JAZZY', 'BOXES', 'WHY', 'GYPSY', 'FUZZ', 'JACK', 'LAZY',
+      'HELLO', 'WORLD', 'QUICK', 'JAZZY', 'BOXES', 'WHY', 'FUZZ', 'JACK', 'LAZY',
       'QUIZ', 'ZEBRA', 'JINX', 'VEX', 'WAX', 'JAZZ', 'PYGMY', 'QUIP', 'ZINC', 'JOKE',
       
       'TREE', 'HOUSE', 'APPLE', 'TABLE', 'CHAIR', 'WATER', 'MONEY', 'PAPER', 'MUSIC', 'PHONE',
@@ -131,10 +133,21 @@ const WordTraining = () => {
     setFeedback(null);
     setIsWaitingForSubmit(true);
     setActiveButton(null);
+    
+    // Auto-focus logic
+    if (trainingMode === 'morseToWord') {
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 50);
+    }
   }, [trainingMode, difficulty, getRandomWord, getRandomMorseWord]);
 
   const checkAnswer = () => {
     if (!isWaitingForSubmit) return;
+
+    // Block global Enter key for 500ms
+    ignoreEnterRef.current = true;
+    setTimeout(() => { ignoreEnterRef.current = false; }, 500);
 
     if (trainingMode === 'wordToMorse') {
       const correctMorse = wordToMorse(currentWord);
@@ -155,6 +168,8 @@ const WordTraining = () => {
         incorrect: !isCorrect ? prev.incorrect + 1 : prev.incorrect
       }));
     } else {
+      if (!userWordInput) return;
+
       const correctWord = morseToWord(currentMorse);
       const normalizedUserInput = userWordInput.trim().toUpperCase();
       
@@ -219,10 +234,8 @@ const WordTraining = () => {
     }
   };
 
-  // ✅ UPDATED: Prevents double spaces and spaces at start
   const addSpace = () => {
     if (trainingMode === 'wordToMorse' && isWaitingForSubmit && !feedback) {
-      // Check if userInput is empty OR if the last character is already a space
       if (userInput.length > 0 && userInput.slice(-1) !== ' ') {
         setUserInput(prev => prev + ' ');
         setActiveButton('space');
@@ -239,9 +252,10 @@ const WordTraining = () => {
     }
   };
 
-  const handleKeyPress = useCallback((event: KeyboardEvent) => {
+  const handleGlobalKeyPress = useCallback((event: KeyboardEvent) => {
     if (feedback) {
-      if (event.key === 'Enter') {
+      // Only proceed if we aren't ignoring Enter
+      if (event.key === 'Enter' && !ignoreEnterRef.current) {
         handleNextWord();
       }
       return;
@@ -255,30 +269,28 @@ const WordTraining = () => {
       } else if (event.key === 'k' || event.key === 'K') {
         addDash();
       } else if (event.key === ' ') {
-        event.preventDefault(); // Optional: prevents page scrolling on Space
+        event.preventDefault();
         addSpace();
       } else if (event.key === 'Enter') {
         checkAnswer();
       } else if (event.key === 'Backspace') {
         handleDelete();
       }
-    } else {
-      if (event.key === 'Enter') {
-        checkAnswer();
-      } else if (event.key === 'Backspace') {
-        setUserWordInput(prev => prev.slice(0, -1));
-      } else if (/^[a-zA-Z]$/.test(event.key)) {
-        setUserWordInput(prev => prev + event.key.toUpperCase());
-      }
     }
   }, [isWaitingForSubmit, feedback, trainingMode, checkAnswer, handleNextWord, userInput]);
 
   useEffect(() => {
-    window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [handleKeyPress]);
+    window.addEventListener('keydown', handleGlobalKeyPress);
+    return () => window.removeEventListener('keydown', handleGlobalKeyPress);
+  }, [handleGlobalKeyPress]);
 
+  // Focus effect for mode switching
   useEffect(() => {
+    if (trainingMode === 'morseToWord') {
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 50);
+    }
     previousWord.current = '';
     generateNewExercise();
   }, [trainingMode, difficulty]);
@@ -405,10 +417,32 @@ const WordTraining = () => {
             <div className={styles.inputSection}>
               <div className={styles.inputLabel}>Your answer (word):</div>
               <div className={styles.wordInputDisplay}>
-                {userWordInput || <span className={styles.placeholder}></span>}
+                <input
+                  ref={inputRef}
+                  type="text"
+                  className={styles.nativeInput}
+                  value={userWordInput}
+                  onChange={(e) => {
+                    const val = e.target.value.toUpperCase();
+                    if (/^[A-Z]*$/.test(val)) {
+                      setUserWordInput(val);
+                    }
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      checkAnswer();
+                    }
+                  }}
+                  disabled={!isWaitingForSubmit}
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="characters"
+                  spellCheck={false}
+                  autoFocus
+                />
               </div>
               <div className={styles.inputHint}>
-                Type the word (A-Z)
+                Type the word
               </div>
             </div>
           </>

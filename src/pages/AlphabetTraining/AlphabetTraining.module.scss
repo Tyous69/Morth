@@ -90,7 +90,6 @@
   }
 }
 
-/* Updated positioning for Mobile */
 .backButtonPosition {
   position: absolute;
   right: 100px;
@@ -99,7 +98,6 @@
   min-width: 180px;
 
   @media (max-width: 768px) {
-    /* Switch from fixed right position to flow content or top center */
     position: relative;
     right: auto;
     top: auto;
@@ -306,6 +304,42 @@
   @media (max-width: 768px) {
     font-size: 3rem;
     min-height: 60px;
+  }
+}
+
+/* NEW: Styles for the real input element to look like the custom display */
+.nativeInput {
+  background: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+  color: white;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  caret-color: #018682;
+  padding: 0;
+  margin: 0;
+  
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Remove autofill styles */
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover, 
+  &:-webkit-autofill:focus {
+    -webkit-text-fill-color: white;
+    -webkit-box-shadow: 0 0 0px 1000px black inset;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+  
+  &:disabled {
+    opacity: 1;
+    color: white;
+    -webkit-text-fill-color: white;
   }
 }
 
