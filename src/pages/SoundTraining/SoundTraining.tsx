@@ -25,7 +25,9 @@ const SoundTraining = () => {
   const audioCtxRef = useRef<AudioContext | null>(null);
   const timeoutsRef = useRef<number[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
-  const ignoreEnterRef = useRef(false); // <--- Add this line
+  
+  const ignoreEnterRef = useRef(false);
+  const hasPlayedSoundRef = useRef(false);
 
   const morseAlphabet: { [key: string]: string } = {
     'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.', 'G': '--.',
@@ -161,20 +163,30 @@ const SoundTraining = () => {
     setUserInput('');
     setFeedback(null);
     setIsWaitingForSubmit(true);
+    
+    hasPlayedSoundRef.current = false;
 
-    // Re-focus on next exercise
     setTimeout(() => {
       inputRef.current?.focus();
     }, 50);
 
   }, [getRandomTarget]); 
 
+  useEffect(() => {
+    if (currentTarget && isWaitingForSubmit && !hasPlayedSoundRef.current) {
+      hasPlayedSoundRef.current = true;
+      const timer = setTimeout(() => {
+        playMorseSound(currentTarget);
+      }, 500); 
+      return () => clearTimeout(timer);
+    }
+  }, [currentTarget, isWaitingForSubmit, playMorseSound]);
+
   const checkAnswer = () => {
     if (!isWaitingForSubmit) return;
     if (!userInput.trim()) return; 
     if (!currentTarget) return;
 
-    // Block global Enter key for 500ms
     ignoreEnterRef.current = true;
     setTimeout(() => { ignoreEnterRef.current = false; }, 500);
 
@@ -217,7 +229,6 @@ const SoundTraining = () => {
 
   const handleGlobalKeyPress = useCallback((event: KeyboardEvent) => {
     if (feedback) {
-      // Only proceed if we aren't ignoring Enter
       if (event.key === 'Enter' && !ignoreEnterRef.current) {
         handleNext();
       }
@@ -230,12 +241,10 @@ const SoundTraining = () => {
     return () => window.removeEventListener('keydown', handleGlobalKeyPress);
   }, [handleGlobalKeyPress]);
 
-  // Focus effect on mount
   useEffect(() => {
     previousTarget.current = '';
     generateNewExercise();
     
-    // Auto focus on load
     setTimeout(() => {
       inputRef.current?.focus();
     }, 100);
@@ -363,7 +372,6 @@ const SoundTraining = () => {
               value={userInput}
               onChange={(e) => {
                 const val = e.target.value.toUpperCase();
-                // If in letters mode, limit to 1 char
                 if (trainingMode === 'letters') {
                   if (val.length <= 1 && /^[A-Z]*$/.test(val)) setUserInput(val);
                 } else {
@@ -384,7 +392,7 @@ const SoundTraining = () => {
             />
           </div>
           <div className={styles.inputHint}>
-            Type what you heard
+            Type on your keyboard
           </div>
         </div>
 

@@ -18,7 +18,7 @@ const AlphabetTraining = () => {
   const previousLetter = useRef<string>(''); 
   const previousMorse = useRef<string>('');
   const inputRef = useRef<HTMLInputElement>(null);
-  const ignoreEnterRef = useRef(false); // <--- Add this line
+  const ignoreEnterRef = useRef(false);
 
   const morseAlphabet: { [key: string]: string } = {
     'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.', 'G': '--.',
@@ -71,8 +71,7 @@ const AlphabetTraining = () => {
     setFeedback(null);
     setIsWaitingForSubmit(true);
     setActiveButton(null);
-    
-    // Auto-focus input when generating new exercise if in text mode
+
     if (trainingMode === 'morseToLetter') {
       setTimeout(() => {
         inputRef.current?.focus();
@@ -83,7 +82,6 @@ const AlphabetTraining = () => {
   const checkAnswer = () => {
     if (!isWaitingForSubmit) return;
 
-    // Block global Enter key for 500ms to prevent skipping feedback
     ignoreEnterRef.current = true;
     setTimeout(() => { ignoreEnterRef.current = false; }, 500);
 
@@ -180,11 +178,8 @@ const AlphabetTraining = () => {
     }
   };
 
-  // Handle physical keyboard for Morse Entry (J/K)
-  // For text entry, we rely on the input's native events
   const handleGlobalKeyPress = useCallback((event: KeyboardEvent) => {
     if (feedback) {
-      // Only proceed if we aren't ignoring Enter
       if (event.key === 'Enter' && !ignoreEnterRef.current) {
         handleNextLetter();
       }
@@ -211,7 +206,6 @@ const AlphabetTraining = () => {
     return () => window.removeEventListener('keydown', handleGlobalKeyPress);
   }, [handleGlobalKeyPress]);
 
-  // Handle focus when switching modes
   useEffect(() => {
     if (trainingMode === 'morseToLetter') {
       setTimeout(() => {

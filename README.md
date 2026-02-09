@@ -9,7 +9,7 @@ Morth (a blend of "Morse" and "Moth") is a web-based application built with Type
 ### Prerequisites
 
 - Node.js (version 14 or higher)
-- npm or yarn
+- npm
 
 ### Installation
 

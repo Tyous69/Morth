@@ -496,7 +496,6 @@
   }
 }
 
-/* NEW: Styles for the real input element to look like the custom display */
 .nativeInput {
   background: transparent;
   border: none;
@@ -516,7 +515,6 @@
     color: rgba(255, 255, 255, 0.1);
   }
   
-  /* Remove autofill styles */
   &:-webkit-autofill,
   &:-webkit-autofill:hover, 
   &:-webkit-autofill:focus {

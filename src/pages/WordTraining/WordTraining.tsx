@@ -18,7 +18,7 @@ const WordTraining = () => {
 
   const previousWord = useRef<string>('');
   const inputRef = useRef<HTMLInputElement>(null);
-  const ignoreEnterRef = useRef(false); // <--- Add this line
+  const ignoreEnterRef = useRef(false);
 
   const morseAlphabet: { [key: string]: string } = {
     'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.', 'G': '--.',
@@ -134,7 +134,6 @@ const WordTraining = () => {
     setIsWaitingForSubmit(true);
     setActiveButton(null);
     
-    // Auto-focus logic
     if (trainingMode === 'morseToWord') {
       setTimeout(() => {
         inputRef.current?.focus();
@@ -145,7 +144,6 @@ const WordTraining = () => {
   const checkAnswer = () => {
     if (!isWaitingForSubmit) return;
 
-    // Block global Enter key for 500ms
     ignoreEnterRef.current = true;
     setTimeout(() => { ignoreEnterRef.current = false; }, 500);
 
@@ -254,7 +252,6 @@ const WordTraining = () => {
 
   const handleGlobalKeyPress = useCallback((event: KeyboardEvent) => {
     if (feedback) {
-      // Only proceed if we aren't ignoring Enter
       if (event.key === 'Enter' && !ignoreEnterRef.current) {
         handleNextWord();
       }
@@ -284,7 +281,6 @@ const WordTraining = () => {
     return () => window.removeEventListener('keydown', handleGlobalKeyPress);
   }, [handleGlobalKeyPress]);
 
-  // Focus effect for mode switching
   useEffect(() => {
     if (trainingMode === 'morseToWord') {
       setTimeout(() => {
