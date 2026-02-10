@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import ScrollToTop from './components/ui/ScrollToTop';
 import Header from './components/layout/Header/Header';
 import Footer from './components/layout/Footer/Footer';
@@ -11,7 +11,7 @@ import SoundTraining from './pages/SoundTraining/SoundTraining';
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
     <ScrollToTop />
       <div className="app-container">
         <Header />
@@ -56,7 +56,7 @@ function App() {
         </main>
         <Footer />
       </div>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
