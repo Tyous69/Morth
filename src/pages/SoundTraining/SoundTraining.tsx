@@ -7,6 +7,9 @@ import { Button } from '../../components/Button/Button';
 const FREQUENCY = 600; // 600Hz tone
 const BASE_VOLUME = 0.1; // The reference "100%" volume
 
+// A tiny silent mp3 to force iOS audio session to "Playback" mode
+const SILENT_MP3 = 'data:audio/mp3;base64,SUQzBAAAAAABAFRYWFgAAABNAAAADTEwMDI2MzkyMTEwMDQQAQAAAMUdbcOAAAAAAAAAAAAAAAAAAAAAA//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq';
+
 const SoundTraining = () => {
   const [trainingMode, setTrainingMode] = useState<'letters' | 'words'>('letters');
   const [difficulty, setDifficulty] = useState<'easy' | 'medium' | 'hard'>('easy');
@@ -22,10 +25,15 @@ const SoundTraining = () => {
   
   const navigate = useNavigate();
   const previousTarget = useRef<string>('');
-  const audioCtxRef = useRef<AudioContext | null>(null);
-  const timeoutsRef = useRef<number[]>([]);
-  const inputRef = useRef<HTMLInputElement>(null);
   
+  // Audio Refs
+  const audioCtxRef = useRef<AudioContext | null>(null);
+  const oscillatorRef = useRef<OscillatorNode | null>(null);
+  const gainNodeRef = useRef<GainNode | null>(null);
+  const timeoutsRef = useRef<number[]>([]);
+  const isAudioUnlockedRef = useRef(false);
+  
+  const inputRef = useRef<HTMLInputElement>(null);
   const ignoreEnterRef = useRef(false);
   const hasPlayedSoundRef = useRef(false);
 
@@ -54,38 +62,100 @@ const SoundTraining = () => {
     ]
   };
 
-  const getWPM = () => {
+  const getWPM = useCallback(() => {
     switch(speed) {
       case 'slow': return 10;
       case 'normal': return 15;
       case 'fast': return 20;
     }
-  };
+  }, [speed]);
 
   // --- Audio Engine ---
-  const playMorseSound = useCallback((text: string) => {
-    if (audioCtxRef.current) {
-      audioCtxRef.current.close();
+
+  // Helper to initialize the AudioContext lazily
+  const getAudioContext = useCallback(() => {
+    if (!audioCtxRef.current) {
+      const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+      audioCtxRef.current = new AudioContext();
     }
+    return audioCtxRef.current;
+  }, []);
+
+  // Unlock iOS Audio: Plays a silent HTML5 audio file to flip the hardware mute switch override
+  const unlockAudio = useCallback(() => {
+    if (isAudioUnlockedRef.current) return;
+
+    // 1. Play silent HTML5 audio
+    const silentAudio = new Audio(SILENT_MP3);
+    silentAudio.play().then(() => {
+      console.log('iOS Audio Unlocked');
+      isAudioUnlockedRef.current = true;
+    }).catch(err => {
+      console.warn('Audio unlock failed (user interaction required)', err);
+    });
+
+    // 2. Resume Web Audio Context
+    const ctx = getAudioContext();
+    if (ctx.state === 'suspended') {
+      ctx.resume();
+    }
+  }, [getAudioContext]);
+
+  // Global interaction listener to unlock audio on first touch/click
+  useEffect(() => {
+    const handleInteraction = () => {
+      unlockAudio();
+      window.removeEventListener('touchstart', handleInteraction);
+      window.removeEventListener('click', handleInteraction);
+      window.removeEventListener('keydown', handleInteraction);
+    };
+
+    window.addEventListener('touchstart', handleInteraction);
+    window.addEventListener('click', handleInteraction);
+    window.addEventListener('keydown', handleInteraction);
+
+    return () => {
+      window.removeEventListener('touchstart', handleInteraction);
+      window.removeEventListener('click', handleInteraction);
+      window.removeEventListener('keydown', handleInteraction);
+    };
+  }, [unlockAudio]);
+
+  const playMorseSound = useCallback((text: string) => {
+    // Stop any currently playing sounds
+    if (oscillatorRef.current) {
+        try { oscillatorRef.current.stop(); } catch (e) {}
+        oscillatorRef.current.disconnect();
+    }
+    if (gainNodeRef.current) {
+        gainNodeRef.current.disconnect();
+    }
+    
     timeoutsRef.current.forEach(t => clearTimeout(t));
     timeoutsRef.current = [];
     setIsPlaying(false);
 
     if (!text) return;
 
-    const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
-    const ctx = new AudioContext();
-    audioCtxRef.current = ctx;
+    const ctx = getAudioContext();
+    
+    // Ensure context is running
+    if (ctx.state === 'suspended') {
+      ctx.resume();
+    }
+
     setIsPlaying(true);
 
     const wpm = getWPM();
     const dotDuration = 1.2 / wpm; 
     const attackTime = 0.005; 
-    
     const effectiveVolume = BASE_VOLUME * (volume / 100);
 
     const oscillator = ctx.createOscillator();
     const gainNode = ctx.createGain();
+
+    oscillatorRef.current = oscillator;
+    gainNodeRef.current = gainNode;
 
     oscillator.type = 'sine';
     oscillator.frequency.value = FREQUENCY;
@@ -95,7 +165,7 @@ const SoundTraining = () => {
     gainNode.connect(ctx.destination);
     oscillator.start();
 
-    let currentTime = ctx.currentTime + 0.1;
+    let currentTime = ctx.currentTime + 0.1; // Small buffer
 
     text.toUpperCase().split('').forEach((char) => {
       const morse = morseAlphabet[char];
@@ -109,25 +179,31 @@ const SoundTraining = () => {
           gainNode.gain.linearRampToValueAtTime(0, currentTime + duration);
 
           currentTime += duration;
-          currentTime += dotDuration; 
+          currentTime += dotDuration; // Inter-element gap
         });
-        currentTime += dotDuration * 2; 
+        currentTime += dotDuration * 2; // Inter-character gap (adds up to 3 dots)
       } else if (char === ' ') {
-        currentTime += dotDuration * 4; 
+        currentTime += dotDuration * 4; // Word gap (adds up to 7 dots)
       }
     });
 
     const totalTime = (currentTime - ctx.currentTime) * 1000;
+    
+    // Cleanup timeout
     const timeoutId = window.setTimeout(() => {
       setIsPlaying(false);
-      if (audioCtxRef.current?.state !== 'closed') {
-        audioCtxRef.current?.close();
+      try {
+        oscillator.stop();
+        oscillator.disconnect();
+        gainNode.disconnect();
+      } catch (e) {
+        // Ignore errors if already stopped
       }
     }, totalTime + 100);
     
     timeoutsRef.current.push(timeoutId);
 
-  }, [speed, volume]); 
+  }, [speed, volume, getWPM, getAudioContext]); 
 
   // --- Game Logic ---
 
@@ -151,9 +227,10 @@ const SoundTraining = () => {
   }, [difficulty, trainingMode]);
 
   const generateNewExercise = useCallback(() => {
-    if (audioCtxRef.current) {
-      audioCtxRef.current.close();
-      setIsPlaying(false);
+    // Cleanup audio when generating new exercise
+    if (oscillatorRef.current) {
+        try { oscillatorRef.current.stop(); } catch(e) {}
+        oscillatorRef.current.disconnect();
     }
     timeoutsRef.current.forEach(t => clearTimeout(t));
 
@@ -241,6 +318,7 @@ const SoundTraining = () => {
     return () => window.removeEventListener('keydown', handleGlobalKeyPress);
   }, [handleGlobalKeyPress]);
 
+  // Initial setup and cleanup
   useEffect(() => {
     previousTarget.current = '';
     generateNewExercise();
@@ -250,10 +328,14 @@ const SoundTraining = () => {
     }, 100);
 
     return () => {
-        if (audioCtxRef.current) audioCtxRef.current.close();
+        // Cleanup AudioContext on unmount
+        if (audioCtxRef.current) {
+            audioCtxRef.current.close();
+            audioCtxRef.current = null;
+        }
         timeoutsRef.current.forEach(t => clearTimeout(t));
     };
-  }, [difficulty, trainingMode]);
+  }, [difficulty, trainingMode, generateNewExercise]);
 
   const sliderBackgroundStyle = {
     background: `linear-gradient(to right, #018682 ${(volume / 200) * 100}%, #333 ${(volume / 200) * 100}%)`
@@ -338,7 +420,11 @@ const SoundTraining = () => {
           <div className={styles.soundControlsContainer}>
             <button 
                 className={`${styles.playButton} ${isPlaying ? styles.playing : ''}`}
-                onClick={() => playMorseSound(currentTarget)}
+                onClick={() => {
+                    // Manual trigger also attempts unlock
+                    unlockAudio();
+                    playMorseSound(currentTarget);
+                }}
                 disabled={isPlaying}
                 title="Play Morse Code"
             >

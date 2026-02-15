@@ -4,28 +4,9 @@
 
 Morth (a blend of "Morse" and "Moth") is a web-based application built with TypeScript that helps you practice Morse code through training modules.
 
-## Quick Start
+## Where to access the website
 
-### Prerequisites
-
-- Node.js (version 14 or higher)
-- npm
-
-### Installation
-
-1. **Install project dependencies**
-```
-npm install
-npm install react react-dom
-npm install react-router-hash-link
-npm i --save-dev @types/react-router-hash-link
-npm install --save-dev typescript @types/react @types/react-dom
-```
-
-2. **Start the development server**
-```
-npm run dev
-```
+Go to https://Morth.ovh
 
 ## Features
 
